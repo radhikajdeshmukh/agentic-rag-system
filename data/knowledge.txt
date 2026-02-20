@@ -1,0 +1,11 @@
+Artificial Intelligence (AI) is a branch of computer science that focuses on building systems 
+that can perform tasks requiring human intelligence. These tasks include learning from data, 
+understanding language, recognizing images, making decisions, and solving problems.
+
+Unlike traditional programs that follow fixed rules, AI systems learn patterns from data 
+and improve over time. Machine Learning is a major part of AI, where models are trained 
+using large datasets to make predictions or classifications.
+
+Common examples of AI include chatbots, recommendation systems, voice assistants, 
+fraud detection systems, and self-driving car features. AI helps automate complex tasks 
+and supports humans in making faster and smarter decisions.
