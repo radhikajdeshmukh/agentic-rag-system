@@ -48,7 +48,7 @@ However, we cannot embed the entire document at once.
 
 Large documents must first be split into smaller chunks.
 
-# Step 1 — Chunking the Text
+# Step 2 — Chunking the Text
 
 Chunking divides large documents into manageable pieces that can be embedded and retrieved effectively.
 

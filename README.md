@@ -1,28 +1,81 @@
-# Basic RAG Agent  
-### Reliability-Aware Agentic Retrieval System
+# Basic RAG Agent
 
----
+Reliability-aware retrieval-augmented generation with verification and retry logic.
 
 ## Overview
 
-This project implements a **reliability-aware retrieval-augmented agent** designed to reduce hallucinations through evaluation-driven control logic.
+This project is a Python CLI RAG application that:
 
-Rather than treating retrieval and generation as a linear pipeline, the system is structured as a **closed-loop architecture** where verification feedback influences subsequent retrieval behavior. This enables adaptive response correction instead of static one-shot generation.
+- chunks a local knowledge source
+- embeds chunks with Ollama-backed embeddings
+- retrieves relevant evidence with FAISS
+- generates answers constrained to retrieved context
+- verifies groundedness and retries with a broader retrieval window
 
-The agent separates responsibilities into distinct phases:
+The repo uses `uv` for Python package management, a `src/` package layout, and `.env` for runtime configuration.
 
-- **Perception** — Semantic retrieval via embeddings + FAISS  
-- **Reasoning** — Context-constrained generation using a local LLM (Ollama)  
-- **Evaluation** — Groundedness verification against retrieved evidence  
-- **Control** — Conditional retry with adaptive retrieval scope  
+## Project layout
 
-By introducing a feedback mechanism between evaluation and retrieval, the system shifts from prompt-driven generation to **decision-aware orchestration**.
+- `src/basic_rag_agent/cli.py` - packaged CLI entrypoint via `run_cli`
+- `src/basic_rag_agent/config.py` - environment-driven settings
+- `src/basic_rag_agent/pipeline.py` - RAG orchestration flow
+- `src/basic_rag_agent/clients/ollama.py` - Ollama HTTP client
+- `src/basic_rag_agent/services/` - ingestion, retrieval, generation, verification, and reflection services
+- `src/basic_rag_agent/__main__.py` - module execution hook
+- `data/knowledge.txt` - local knowledge base used by the CLI
+- `docs/` - supporting documentation and notes
 
-The result is a minimal but structured example of an agentic AI system focused on:
+## Requirements
 
-- Hallucination mitigation  
-- Retrieval reliability  
-- Guardrail-enforced execution  
-- System-level evaluation  
+- Python 3.13+
+- `uv`
+- Ollama running locally with the configured models available
 
-This repository demonstrates how small architectural decisions — particularly around feedback and control — materially improve the reliability of LLM-based systems.
+## Setup
+
+```bash
+make sync
+```
+
+Review `.env`, then run:
+
+```bash
+make run
+```
+
+Or run the installed entrypoint directly:
+
+```bash
+uv run basic-rag-agent
+```
+
+## Environment variables
+
+```dotenv
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_CHAT_MODEL=llama3
+OLLAMA_EMBED_MODEL=nomic-embed-text
+OLLAMA_EMBED_TIMEOUT_SECONDS=60
+OLLAMA_CHAT_TIMEOUT_SECONDS=300
+RAG_DATA_PATH=data/knowledge.txt
+RAG_CHUNK_SIZE=400
+RAG_CHUNK_OVERLAP=60
+RAG_INITIAL_TOP_K=3
+RAG_RETRY_TOP_K_STEP=2
+RAG_MAX_TOP_K=8
+RAG_MAX_RETRIES=2
+RAG_PREVIEW_SOURCES=3
+```
+
+## Common commands
+
+```bash
+make sync
+make run
+make lock
+make clean
+```
+
+## License
+
+MIT. See `LICENSE`.
