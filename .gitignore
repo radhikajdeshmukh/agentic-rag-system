@@ -2,3 +2,6 @@
 __pycache__/
 .env
 *.pyc
+.pytest_cache/
+uv.lock
+.ruff_cache/

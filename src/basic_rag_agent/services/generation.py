@@ -1,6 +1,7 @@
-# generator.py
 from __future__ import annotations
-from ollama_client import ollama_chat
+
+from ..clients.ollama import ollama_chat
+
 
 def generate_answer(query: str, context: str) -> str:
     prompt = (
@@ -9,4 +10,4 @@ def generate_answer(query: str, context: str) -> str:
         f"Context:\n{context}\n\n"
         f"Question:\n{query}\n"
     )
-    return ollama_chat(prompt, model="llama3")
+    return ollama_chat(prompt)
